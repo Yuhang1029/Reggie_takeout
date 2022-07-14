@@ -19,12 +19,12 @@
       let url = config.url + '?';
       for (const propName of Object.keys(config.params)) {
         const value = config.params[propName];
-        var part = encodeURIComponent(propName) + "=";
+        const part = encodeURIComponent(propName) + "=";
         if (value !== null && typeof(value) !== "undefined") {
           if (typeof value === 'object') {
             for (const key of Object.keys(value)) {
               let params = propName + '[' + key + ']';
-              var subPart = encodeURIComponent(params) + "=";
+              const subPart = encodeURIComponent(params) + "=";
               url += subPart + encodeURIComponent(value[key]) + "&";
             }
           } else {
@@ -50,14 +50,7 @@
       // 获取错误信息
       const msg = res.data.msg
       console.log('---code---',code)
-      if (res.data.code === 0 && res.data.msg === '未登录') {// 返回登录页面
-        // MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
-        //     confirmButtonText: '重新登录',
-        //     cancelButtonText: '取消',
-        //     type: 'warning'
-        //   }
-        // ).then(() => {
-        // })
+      if (res.data.code === 0 && res.data.msg === 'NOT_LOGIN') {// 返回登录页面
         console.log('---/backend/page/login/login.html---',code)
         localStorage.removeItem('userInfo')
         window.top.location.href = '/backend/page/login/login.html'
@@ -68,7 +61,7 @@
     error => {
       console.log('err' + error)
       let { message } = error;
-      if (message == "Network Error") {
+      if (message === "Network Error") {
         message = "后端接口连接异常";
       }
       else if (message.includes("timeout")) {
